@@ -1,0 +1,53 @@
+<div ui-view class="has-hotline">
+    <article class="bb_infoa tc" ui-sref=".studentInfo">
+        <img ng-src="{{ utilService.getChildAvatar(child.pic) }}">
+
+        <p><span ng-bind="childName"></span></p>
+
+        <div class="p2" ng-show="child.assignTel" ng-bind="'热线号码: ' + child.assignTel"></div>
+        <div class="p2" ng-hide="child.assignTel" ng-bind="'sim卡号: ' + child.watch.simNo"></div>
+
+    </article>
+
+    <article class="manager ovh">
+        <ul>
+            <li ui-sref=".familyNumber"><img src="images/ico_fmy.png">
+
+                <p>手表亲情号</p>
+            </li>
+            <li ui-sref=".watchbutton"><img src="images/ico_tel.png">
+
+                <p>手表按键</p>
+            </li>
+            <li ui-sref=".location" ng-hide="true"><img src="images/ico_track.png">
+
+                <p>轨迹设置</p>
+            </li>
+            <li ui-sref=".silentTime"><img src="images/ico_time.png">
+
+                <p>静音时段</p>
+            </li>
+            <li ui-sref=".alarm"><img src="images/ico_fee.png">
+
+                <p>手表闹钟</p>
+            </li>
+            <li ui-sref=".switchChild"><img src="images/ico_switch_student.png">
+
+                <p>切换学生</p>
+            </li>
+        </ul>
+    </article>
+
+    <article class="bb_infob page-bottom">
+        <ul>
+            <li ui-sref=".watchInfo">手表信息</li>
+            <li ui-sref=".addwatch">添加手表</li>
+        </ul>
+    </article>
+
+
+    <footermenu></footermenu>
+
+</div>
+
+

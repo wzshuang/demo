@@ -1,0 +1,20 @@
+<ul class="menu">
+  <li ui-sref-active="active">
+    <a ui-sref="position">
+        <img ng-src="{{ $state.includes('position') ? 'images/bottom_position_selected.png' : 'images/bottom_position.png' }}">
+        <p>位置</p>
+      </a>
+    </li>
+  <li ui-sref-active="active">
+    <a ui-sref="information">
+      <img ng-src="{{ $state.includes('information') ? 'images/bottom_info_selected.png' : 'images/bottom_info.png' }}" >
+      <p>信息</p>
+    </a>
+  </li>
+    <li ui-sref-active="active">
+      <a ui-sref="manage">
+        <img ng-src="{{$state.includes('manage') ? 'images/bottom_manage_selected.png' : 'images/bottom_manage.png'}}">
+        <p>管理</p>
+      </a>
+    </li>
+</ul>

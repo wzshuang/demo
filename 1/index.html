@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh" ng-app="watch" data-dpr="{{ $root.dpr }}" data-android="{{ $root.android }}" data-ios="{{ $root.ios }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <link href="dist/all.css" rel="stylesheet">
+    <title ng-bind="title || 'demo'"></title>
+</head>
+<body ng-controller="MainCtrl" class="{{ bodyClass }}" scroll>
+    <div ui-view ng-class="slide"></div>
+
+    <script type="text/javascript">
+        //接口的地址，去掉最后的斜杠
+        window.API_HOST = 'http://192.168.0.150:8083/juds-api';
+    </script>
+    <script type="text/javascript" src="dist/libs.js"></script>
+    <script type="text/javascript" src="dist/templates.js"></script>
+    <script type="text/javascript" src="dist/scripts.js"></script>
+</body>
+</html>
