@@ -33,7 +33,11 @@
         .config(['$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
 
-                $urlRouterProvider.otherwise("/index/");
+                $urlRouterProvider.otherwise("");
+                $stateProvider.state('root', {
+                    url: '',
+                    controller: 'RootCtrl'
+                });
                 $stateProvider.state('index', {
                     url: '/index/:parentPhoneNo',
                     params: {userId: null, parentId: null, parentPhoneNo: null},
