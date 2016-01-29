@@ -11,11 +11,7 @@ var sourcemaps = require('gulp-sourcemaps'); // 方便调试
 var minifyCss = require('gulp-minify-css');
 var webserver = require('gulp-webserver');
 var zip = require('gulp-zip');
-
-
-gulp.task('help', function () {
-    console.log('');
-});
+var gulpSequence = require('gulp-sequence'); // 按顺序执行任务
 
 gulp.task('clean', function () {
     return gulp.src('dist', {read: false})
@@ -26,7 +22,7 @@ gulp.task('styles', function () {
     return gulp.src(['css/*.css'])
         .pipe(concat('all.css'))
         .pipe(minifyCss())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/tmp'));
 });
 
 var libsList = [
@@ -41,11 +37,11 @@ var libsList = [
 gulp.task('libs-all', function () {
     return gulp.src(libsList)
         .pipe(concat('libs.js'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/tmp'));
 });
 
 gulp.task('lint', function () {
-    return gulp.src(['js/scripts/watch-*.js'])
+    return gulp.src(['js/scripts/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail')); //出错后停止
@@ -60,6 +56,7 @@ gulp.task('scripts', ['lint'], function () {
         .pipe(gulp.dest('dist'));
 });
 
+// 将angular的html模版编译为一个js文件
 gulp.task('templates', function () {
     return gulp.src(['partials/**/*.html'])
         .pipe(templateCache('templates.js', {
@@ -81,29 +78,19 @@ gulp.task('rev', ['clean', 'libs-all', 'scripts', 'styles', 'templates'], functi
         .pipe(gulp.dest('dist'));
 });
 
-// index 和ad的处理有点恶心。。。。 赶时间，有空了再改
-gulp.task('index', function(){
-    return gulp.src(['index-src.html'])
-        .pipe(rename('index.html'))
-        .pipe(gulp.dest('.'));
-});
-
-gulp.task('ad', function(){
-    return gulp.src(['ad-src.html'])
-        .pipe(rename('ad.html'))
-        .pipe(gulp.dest('.'));
-});
-
-gulp.task('default', ['index', 'ad', 'rev'], function () {
-    return gulp.src(['dist/**/*.json', 'index.html', 'ad.html'])
+// 将html里引用的静态文件加上文件hash
+gulp.task('collector', function () {
+    return gulp.src(['dist/tmp/*.json', 'html/*.html'])
         .pipe(revCollector({replaceReved: true}))
         .pipe(gulp.dest('.'));
 });
 
+gulp.task('default', gulpSequence('clean', 'libs-all', 'scripts', 'styles', 'templates', 'rev', 'collector'));
+
 // 将编译后的文件打个zip包
 gulp.task('package', ['default'], function () {
-    return gulp.src(['./index.html', './ad.html', './dist/**', './partials/**', './images/**', '!node_modules/**'], {base: './'})
-        .pipe(zip('watch.zip'))
+    return gulp.src(['*.html', './dist/**', './partials/**', './images/**', '!node_modules/**', '!dist/tmp/**'], {base: './'})
+        .pipe(zip('demo.zip'))
         .pipe(gulp.dest('.'));
 });
 
